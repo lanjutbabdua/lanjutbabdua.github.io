@@ -113,8 +113,8 @@
         const countdownElement = document.getElementById('countdown');
         const getLinkBtn = document.getElementById('getLinkBtn');
 
-        // Fungsi untuk memulai countdown dan menampilkan tombol
-        function startSafelinkProcess() {
+        // Panggil fungsi ini saat DOM sudah siap
+        document.addEventListener('DOMContentLoaded', () => {
             if (encodedUrl) {
                 const decodedUrl = decodeUrl(encodedUrl);
 
@@ -125,9 +125,9 @@
                         if (countdownTime <= 0) {
                             clearInterval(countdownInterval);
                             countdownElement.parentNode.style.display = 'none';
-                            getLinkBtn.style.display = 'block';
-                            getLinkBtn.href = decodedUrl;
-                            getLinkBtn.target = "_blank";
+                            getLinkBtn.style.display = 'block'; // Tampilkan tombol
+                            getLinkBtn.href = decodedUrl; // Set href tombol ke URL asli
+                            getLinkBtn.target = "_blank"; // Pastikan link terbuka di tab baru
                         }
                     }, 1000);
                 } else {
@@ -136,52 +136,7 @@
             } else {
                 document.querySelector('.container').innerHTML = '<p class="error-message">Error: Tidak ada URL yang ditemukan dalam parameter!</p>';
             }
-        }
-
-        // Memantau pemuatan script Adsterra kedua (atau script Adsterra yang lebih penting)
-        // Ini adalah pendekatan yang lebih baik daripada hanya menunggu onload window
-        // karena kita ingin script lain berjalan SETELAH iklan dimuat.
-        // Adsterra biasanya akan menambahkan elemen atau variabel global saat dimuat.
-        // Kita bisa mengecek keberadaan elemen atau variabel tersebut.
-
-        // Misalnya, jika Adsterra membuat global variable bernama 'AdsterraLoaded'
-        // atau jika ada iframe dengan ID tertentu yang dibuat oleh Adsterra, kita bisa cek itu.
-        // Karena tidak ada indikator eksplisit di script Anda, kita akan menggunakan
-        // pendekatan setTimeout berulang atau mengecek DOM.
-
-        // **Penting:** Identifikasi cara Adsterra mengindikasikan bahwa iklannya sudah *sepenuhnya* dimuat.
-        // Tanpa itu, kita hanya bisa menebak dengan penundaan waktu atau pengamatan DOM.
-
-        // Pendekatan 1: Menunggu waktu yang cukup (kurang ideal tapi sering digunakan jika tidak ada callback)
-        // setTimeout(() => {
-        //     startSafelinkProcess();
-        // }, 2000); // Beri waktu 2 detik untuk Adsterra memuat. Sesuaikan nilai ini.
-
-        // Pendekatan 2: Memeriksa apakah script Adsterra kedua sudah dimuat (lebih baik)
-        // Asumsi: Jika script dfdbbde324b8fc19f3110521aeee986f.js sudah dimuat, berarti Adsterra siap.
-        // Ini bisa dicek dengan memeriksa elemen script di DOM.
-        function checkAdsterraLoadedAndStartProcess() {
-            const adsterraScript2 = document.querySelector('script[src*="df/db/bd/dfdbbde324b8fc19f3110521aeee986f.js"]');
-            if (adsterraScript2 && adsterraScript2.isConnected) { // Cek apakah elemen ada di DOM
-                 // Anda juga bisa mengecek apakah iframe iklan sudah muncul
-                 const adsterraIframe1 = document.querySelector('iframe[src*="highperformanceformat.com"]');
-                 // const adsterraIframe2 = document.querySelector('iframe[src*="profitableratecpm.com"]'); // Jika script kedua juga buat iframe
-                 if (adsterraIframe1) { // Periksa apakah setidaknya satu iframe iklan utama sudah ada
-                     console.log("Adsterra scripts and iframes appear to be loaded. Starting safelink process.");
-                     startSafelinkProcess();
-                 } else {
-                     console.log("Waiting for Adsterra iframes...");
-                     setTimeout(checkAdsterraLoadedAndStartProcess, 100); // Cek lagi setelah 100ms
-                 }
-            } else {
-                console.log("Waiting for Adsterra script 2 to be injected...");
-                setTimeout(checkAdsterraLoadedAndStartProcess, 100); // Cek lagi setelah 100ms
-            }
-        }
-
-        // Panggil fungsi untuk memulai pemeriksaan
-        checkAdsterraLoadedAndStartProcess();
-
+        });
     </script>
 </body>
 </html>
