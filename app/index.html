@@ -4,14 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cerita Malam</title>
+    <!-- Memuat Telegram Web App SDK di sini aman -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
-    <link rel="stylesheet" href="/app/style.css">
-    <script src="/app/app.js"></script> 
+    <!-- Memuat stylesheet di head adalah praktik yang baik -->
+    <link rel="stylesheet" href="/app/style.css"/>
+    
+    <!-- Tambahkan CSS dasar untuk memastikan elemen terlihat dan berfungsi -->
+    <style>
+        /* Variabel CSS untuk tema Telegram */
+        :root {
+            --tg-theme-bg-color: #ffffff;
+            --tg-theme-secondary-bg-color: #f0f0f0;
+            --tg-theme-text-color: #000000;
+            --tg-theme-hint-color: #888888;
+            --tg-theme-link-color: #007bff;
+            --tg-theme-button-color: #007bff;
+            --tg-theme-button-text-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
+            margin: 0;
+            padding: 0;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--tg-theme-text-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Styling untuk daftar cerita */
+        #story-list-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #story-list-section li {
+            background-color: var(--tg-theme-secondary-bg-color);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #story-list-section a {
+            display: block;
+            text-decoration: none;
+            color: var(--tg-theme-link-color);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        #story-list-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling untuk detail cerita */
+        #story-detail-section {
+            background-color: var(--tg-theme-secondary-bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #story-detail-section h1 {
+            font-size: 1.8em;
+            margin-top: 0;
+            text-align: left;
+        }
+
+        #story-detail-section p#story-author {
+            font-style: italic;
+            color: var(--tg-theme-hint-color);
+            margin-bottom: 20px;
+        }
+
+        #story-detail-section #story-content {
+            margin-top: 20px;
+            color: var(--tg-theme-text-color);
+        }
+
+        #story-detail-section #story-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        /* Styling untuk tombol kembali */
+        #back-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto 0 auto;
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px; /* Lebih bulat */
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        #back-button:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsif dasar */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            #story-list-section li {
+                padding: 10px;
+            }
+            #story-detail-section h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Kumpulan Cerita Malam</h1>
-    <div id="story-list"></div>
-    <div id="story-detail"></div>
+    <div class="container">
+        <h1>Kumpulan Cerita Malam</h1>
+
+        <!-- Perbaiki ID agar sesuai dengan JavaScript -->
+        <section id="story-list-section">
+            <!-- Konten daftar cerita akan dimuat di sini oleh JavaScript -->
+            <p>Memuat daftar cerita...</p>
+        </section>
+
+        <!-- Perbaiki ID agar sesuai dengan JavaScript -->
+        <section id="story-detail-section" style="display: none;">
+            <h2 id="story-title"></h2>
+            <p id="story-author"></p>
+            <div id="story-content"></div>
+            <button id="back-button">Kembali ke Daftar Cerita</button>
+        </section>
+    </div>
+
+    <!-- Pindahkan script app.js ke sebelum penutup tag </body> -->
+    <!-- Ini memastikan semua elemen DOM sudah dimuat sebelum script mencoba mengaksesnya -->
+    <script src="/app/app.js"></script>
 </body>
 </html>
