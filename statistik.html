@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Statistik GA4 - lanjutbabdua</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+      color: #333;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #0069d9;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Statistik Google Analytics 4</h1>
+
+  <div class="card" id="data">
+    <p>Memuat data statistik...</p>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('ga4_token');
+    const propertyId = '348753941';
+
+    if (!token) {
+      window.location.href = 'ga4-login.html';
+    }
+
+    fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+        metrics: [
+          { name: 'totalUsers' },
+          { name: 'activeUsers' },
+          { name: 'screenPageViews' }
+        ]
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const values = data.rows?.[0]?.metricValues || [];
+      document.getElementById('data').innerHTML = `
+        <div><strong>Total Pengguna:</strong> ${values[0]?.value || '0'}</div>
+        <div><strong>Pengguna Aktif:</strong> ${values[1]?.value || '0'}</div>
+        <div><strong>Tampilan Halaman:</strong> ${values[2]?.value || '0'}</div>
+      `;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('data').innerHTML = `<p style="color:red;">Gagal memuat data. Coba login ulang.</p>`;
+    });
+  </script>
+</body>
+</html>
