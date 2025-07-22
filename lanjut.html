@@ -100,15 +100,21 @@
         }
 
         // Ambil URL tujuan dari parameter 'url'
-        const targetUrl = getQueryParam('url');
+        let targetUrl = getQueryParam('url');
+        // Ambil fragment (hash) dari URL saat ini
+        const fragment = window.location.hash; // Ini akan mengembalikan '#lanjut' atau ''
 
         const redirectButton = document.getElementById('redirectButton');
         const countdownDiv = document.getElementById('countdown');
         const timerSpan = document.getElementById('timer');
 
-        let timeLeft = 10; // Waktu countdown dalam detik, diubah menjadi 10 detik
+        let timeLeft = 10; // Waktu countdown dalam detik
 
         if (targetUrl) {
+            // Gabungkan targetUrl dengan fragment (jika ada)
+            if (fragment) {
+                targetUrl += fragment;
+            }
             redirectButton.href = decodeURIComponent(targetUrl); // Decode URL jika ada karakter khusus
 
             const countdownInterval = setInterval(() => {
